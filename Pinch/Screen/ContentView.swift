@@ -17,6 +17,7 @@ struct ContentView: View {
   @State private var imageOffset: CGSize = .zero
   
   
+  
   // MARK: - FUNCTION
   
   func resetImageState() {

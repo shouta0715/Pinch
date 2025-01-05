@@ -13,6 +13,8 @@ struct InfoPanelView: View {
   
   @State private var isInfoPanelVisible: Bool = false
   
+  let hapticFeedback = UINotificationFeedbackGenerator()
+  
     var body: some View {
       HStack{
         // MARK: - HOTSPOT
@@ -22,6 +24,7 @@ struct InfoPanelView: View {
           .frame(width: 30, height: 30)
           .onLongPressGesture(minimumDuration: 1) {
             withAnimation(.easeOut) {
+              hapticFeedback.notificationOccurred(.success)
               isInfoPanelVisible.toggle()
             }
           }
