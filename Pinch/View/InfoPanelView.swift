@@ -22,7 +22,7 @@ struct InfoPanelView: View {
           .symbolRenderingMode(.hierarchical)
           .resizable()
           .frame(width: 30, height: 30)
-          .onLongPressGesture(minimumDuration: 1) {
+          .onLongPressGesture(minimumDuration: 0.5) {
             withAnimation(.easeOut) {
               hapticFeedback.notificationOccurred(.success)
               isInfoPanelVisible.toggle()
