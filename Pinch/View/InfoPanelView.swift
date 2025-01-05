@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct IngoPageView: View {
+struct InfoPanelView: View {
   var scale: CGFloat
   var offset: CGSize
   
@@ -62,7 +62,7 @@ struct IngoPageView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-  IngoPageView(scale: 1, offset: .zero)
+  InfoPanelView(scale: 1, offset: .zero)
     .preferredColorScheme(.dark)
     .padding()
 }
