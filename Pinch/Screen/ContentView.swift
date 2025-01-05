@@ -16,7 +16,12 @@ struct ContentView: View {
   
   @State private var imageOffset: CGSize = .zero
   
+  @State private var isDrawerOpen: Bool = false
   
+  @State private var chevronImage: String = "chevron.compact.left"
+  
+  let pages: [Page] = pagesData
+  @State private var pageIndex: Int = 1
   
   // MARK: - FUNCTION
   
@@ -27,13 +32,17 @@ struct ContentView: View {
     }
   }
   
+  func currentPageImage() -> ImageResource {
+    return pages[pageIndex - 1].imageName
+  }
+  
   // MARK: - CONTENT
     var body: some View {
       NavigationView {
         ZStack {
           Color.clear
           // MARK: - PAGE IMAGE
-          Image(.magazineFrontCover)
+          Image(currentPageImage())
             .resizable()
             .aspectRatio(contentMode: .fit)
             .cornerRadius(10)
@@ -150,6 +159,50 @@ struct ContentView: View {
             
           }
           .padding(.bottom,30)
+        }
+        .overlay(alignment: .topTrailing) {
+          HStack(spacing: 12) {
+            // MARK: - DRAWER HANDLE
+            Image(systemName: chevronImage)
+              .resizable()
+              .scaledToFit()
+              .frame(height: 40)
+              .padding(8)
+              .foregroundStyle(.secondary)
+              .onTapGesture {
+                chevronImage = isDrawerOpen ? "chevron.compact.left" : "chevron.compact.right"
+             
+                withAnimation(.easeOut(duration: 0.25)) {
+                    isDrawerOpen.toggle()
+                }
+              }
+              
+            // MARK: - THUNBANILS
+            ForEach(pages) { item in
+              Image(item.thumbnailName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80)
+                .cornerRadius(8)
+                .shadow(radius: 4)
+                .opacity(isDrawerOpen ? 1 : 0)
+                .animation(.easeOut(duration: 0.25), value:isDrawerOpen)
+                .onTapGesture(perform: {
+                  isAnimating = true
+                  withAnimation {
+                    pageIndex = item.id
+                  }
+                })
+            }
+            Spacer()
+          }//: DRAWER
+          .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
+          .background(.ultraThinMaterial)
+          .cornerRadius(12)
+          .opacity(isAnimating ? 1 : 0)
+          .frame(width: 260)
+          .padding(.top, UIScreen.main.bounds.height / 12)
+          .offset(x: isDrawerOpen ? 20 : 215)
         }
       } //: Navigation
       .navigationViewStyle(.stack)
